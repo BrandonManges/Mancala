@@ -1,0 +1,32 @@
+/* Controller for Mancala game
+* Brandon Manges
+* 8 March 2021
+* Controls flow of the game
+ */
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Board board = new Board();
+        Player[] player = new Player[2];
+        Scanner input = new Scanner(System.in);
+        board.printBoard();
+        System.out.print("Welcome to Mancala!\n What is the name of the first player? ");
+        player[0] = new Player(input.nextLine(),1);
+        System.out.print("What is the name of the second player? ");
+        player[1] = new Player(input.nextLine(),2);
+        System.out.print("Welcome " + player[0].getName() + " and " + player[1].getName() + ". Please enjoy your game. ");
+
+        int current = 0;
+        boolean loop = true;
+        int plyr = 0;
+        do {
+            loop = true;
+            System.out.println("It is now the time for " + player[plyr].getName() + " to make a move.");
+            plyr = board.makeMove(player[plyr]);
+            if (plyr == 0) loop = false;
+            plyr--;
+            break;
+        } while(loop);
+
+    }
+}
