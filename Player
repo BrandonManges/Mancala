@@ -45,6 +45,10 @@ public class Player {
         return end;
     }
 
+    public int getPlayer() {
+        return player;
+    }
+
     public int getMancala() {
         return mancala;
     }
