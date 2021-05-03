@@ -5,6 +5,7 @@
  * 8 March 2021
  * First, take care of basic board layout
  */
+import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -70,13 +71,52 @@ public class Board {
         printSolidLine(41, true);
     }
 
+    int findIndex(char c) {
+        int retVal = 20;
+        for(int i = 0 ; i < 14 ; i++) {
+            if (c == lables[i]) {
+                retVal = i;
+                break;
+            }
+        }
+        return retVal;
+    }
+
     int makeMove(Player p ) {
         Random random = new Random();
         int retVal = 0;
-        String chose;
-        System.out.print(p.getName() +  ", choose from pits " + lables[p.getStart()] +
-                " to " + lables[p.getEnd()]+ ": ");
-        chose = input.next();
+        char choose;
+
+        boolean loop = true;
+        int pos;
+        do{
+            System.out.print(p.getName() +  ", choose from pits " + lables[p.getStart()] +
+                    " to " + lables[p.getEnd()]+ ": ");
+            choose = input.next().toUpperCase().charAt(0);
+             pos = findIndex(choose);
+            if(pos >= p.getStart() && pos <= p.getEnd() && board[pos] > 0) {
+                loop = false;
+            } else {
+                System.out.println("Please enter a valid input.");
+            }
+        }while(loop);
+
+        int stones = board[pos];
+        board[pos] = 0;
+
+        while(stones > 0){
+            pos++;
+            if(pos >= 14){
+                pos = 0;
+            } else if(p.getPlayer() == 1 && pos == 13) pos = 0;
+            else if(p.getPlayer() == 2 && pos == 6 ) pos = 7;
+            board[pos]++;
+            stones--;
+        }
+        
+
+
+
         retVal = random.nextInt(3);
         System.out.println("The random number being returned is: " + retVal);
         return retVal;
